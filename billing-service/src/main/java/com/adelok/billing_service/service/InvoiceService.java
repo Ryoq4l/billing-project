@@ -11,6 +11,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class InvoiceService {
@@ -29,5 +32,18 @@ public InvoiceResponse create(CreateInvoiceRequest request){
         Invoice saved = invoiceRepository.saveAndFlush(invoice);
         return responseMapper.toResponse(saved);
     }
+    @Transactional
+    public InvoiceResponse getById(UUID id){
+        Invoice invoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Invoice not found with id " +id ));
+        return responseMapper.toResponse(invoice);
+    }
+    @Transactional
+    public List<InvoiceResponse> getByCustomer(UUID customerId){
+        return invoiceRepository.findByCustomerId(customerId)
+                .stream()
+                .map(responseMapper::toResponse)
+                .toList();
 
+    }
 }
