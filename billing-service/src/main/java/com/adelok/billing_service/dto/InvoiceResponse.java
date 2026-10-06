@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
-public record InvoiceResponce(
+public record InvoiceResponse(
         UUID id,
         BigDecimal amount,
         UUID customerId,
