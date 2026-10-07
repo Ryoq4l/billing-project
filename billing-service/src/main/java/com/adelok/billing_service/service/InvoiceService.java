@@ -56,4 +56,11 @@ public class InvoiceService {
                 .map(responseMapper::toResponse)
                 .toList();
     }
+    @Transactional(readOnly = true)
+    public List<InvoiceResponse> getByStatus(InvoiceStatus status){
+        return invoiceRepository.findByStatus((status))
+                .stream()
+                .map(responseMapper::toResponse)
+                .toList();
+    }
 }
